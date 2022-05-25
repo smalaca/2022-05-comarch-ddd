@@ -1,7 +1,6 @@
 package com.smalaca.sale.domain.cart;
 
 import com.smalaca.sale.domain.offer.Offer;
-import com.smalaca.sale.domain.offer.OfferItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,22 +48,13 @@ public class Cart {
     }
 
     private Offer create(Buyer buyer, List<Product> products) {
-        List<OfferItem> offerItems = products.stream()
-                .map(this::asOfferItem)
-                .collect(toList());
+        Offer.Builder builder = new Offer.Builder(buyer);
 
-        Price cost = calculatePrice(offerItems);
-        return new Offer(buyer, offerItems, cost);
-    }
+        products.forEach(product -> {
+            builder.addItem(product.getProductId(), product.getSeller(), product.getPrice(), amountFor(product.getProductId()));
+        });
 
-    private OfferItem asOfferItem(Product product) {
-        return new OfferItem(product.getProductId(), product.getSeller(), product.getPrice(), amountFor(product.getProductId()));
-    }
-
-    private Price calculatePrice(List<OfferItem> offerItems) {
-        return offerItems.stream()
-                .map(OfferItem::calculateCost)
-                .reduce(Price.ZERO, Price::add);
+        return builder.build();
     }
 
     private Amount amountFor(ProductId productId) {
