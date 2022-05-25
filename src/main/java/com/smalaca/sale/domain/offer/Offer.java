@@ -27,6 +27,13 @@ public class Offer {
         List<OfferItem> offerItems = productMap.keySet().stream().map(productId ->
                 new OfferItem(productMap.get(productId), assortmentsMap.get(productId).getAmount())).collect(Collectors.toList());
 
-        return new Offer(buyer, offerItems, null);
+        Price cost = calculatePrice(offerItems);
+        return new Offer(buyer, offerItems, cost);
+    }
+
+    private static Price calculatePrice(List<OfferItem> offerItems) {
+        return offerItems.stream()
+                .map(OfferItem::calculateCost)
+                .reduce(Price.ZERO, Price::add);
     }
 }

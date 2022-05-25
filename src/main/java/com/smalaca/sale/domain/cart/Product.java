@@ -6,6 +6,7 @@ public class Product {
     @Getter
     private final ProductId productId;
     private final Seller seller;
+    @Getter
     private final Price price;
 
     Product(ProductId productId, Seller seller, Price price) {
