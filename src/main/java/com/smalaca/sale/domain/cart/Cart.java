@@ -5,48 +5,38 @@ import com.smalaca.sale.domain.offer.Offer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Cart {
     private final List<CartItem> items = new ArrayList<>();
 
     public void addProduct(Warehouse warehouse, ProductId productId, Amount amount) {
-      checkProductAvailable(warehouse, productId, amount);
+        Optional<Assortment> assortment = warehouse.findAssortmentFor(productId);
 
-      items.add(new CartItem(productId, amount));
+        if (assortment.isEmpty()) {
+            throw AssortmentException.doesNotExist(productId);
+        }
+
+        if (assortment.get().hasNotEnough(amount)) {
+            throw AssortmentException.hasNotEnoughProducts(productId, amount);
+        }
+
+        items.add(new CartItem(productId, amount));
     }
 
-  private void checkProductAvailable(Warehouse warehouse, ProductId productId, Amount amount) {
-    Optional<Assortment> assortment = warehouse.findAssortmentFor(productId);
 
-    if (assortment.isEmpty()) {
-        throw AssortmentException.doesNotExist(productId);
-    }
-
-    if (assortment.get().hasNotEnough(amount)) {
-        throw AssortmentException.hasNotEnoughProducts(productId, amount);
-    }
-  }
-
-  private void checkProductsAvailable(Warehouse warehouse, List<ProductId> productIds, Amount amount) {
-    Optional<Assortment> assortment = warehouse.findAssortmentFor(productId);
-
-    if (assortment.isEmpty()) {
-        throw AssortmentException.doesNotExist(productId);
-    }
-
-    if (assortment.get().hasNotEnough(amount)) {
-        throw AssortmentException.hasNotEnoughProducts(productId, amount);
-    }
-  }
-
-  public Offer accept(Buyer buyer, List<ProductId> productIds) {
+    public Offer accept(Warehouse warehouse, Buyer buyer, List<ProductId> productIds) {
       if (hasNotAll(productIds)) {
         throw CartException.hasNotAll(productIds);
       }
-
-      checkProductAvailable(warehouse, );
-      
-      return null;
+      List<Assortment> assortments = items.stream().filter(item -> productIds.contains(item.getProductId()))
+              .map(CartItem::toAssortment).collect(Collectors.toList());
+      if (warehouse.areAvailable(assortments)){
+          List<Product> products=  warehouse.findProducts(productIds);
+          return null;
+      } else {
+          throw AssortmentException.notAvailable(assortments);
+      }
     }
 
   private boolean hasNotAll(List<ProductId> productIds) {

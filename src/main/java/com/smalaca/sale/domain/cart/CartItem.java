@@ -8,4 +8,12 @@ class CartItem {
         this.productId = productId;
         this.amount = amount;
     }
+
+    Assortment toAssortment() {
+        return new Assortment(productId, amount);
+    }
+
+    ProductId getProductId() {
+        return productId;
+    }
 }

@@ -41,7 +41,7 @@ public class CartApplicationService {
         Buyer buyer = new Buyer(acceptCartDto.getBuyerFirstName(), acceptCartDto.getBuyerLastName());
         List<ProductId> productIds = acceptCartDto.getProductIds().stream().map(ProductId::create).collect(Collectors.toList());
 
-        Offer offer = cart.accept(buyer,  productIds);
+        Offer offer = cart.accept(warehouse, buyer,  productIds);
 
         cartRepository.save(cart);
         offerRepository.save(offer);
