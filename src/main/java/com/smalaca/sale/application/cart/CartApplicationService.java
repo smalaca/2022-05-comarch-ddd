@@ -7,6 +7,7 @@ import com.smalaca.sale.domain.cart.CartRepository;
 import com.smalaca.sale.domain.cart.ProductId;
 import com.smalaca.sale.domain.cart.Warehouse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ public class CartApplicationService {
         this.warehouse = warehouse;
     }
 
+    @Transactional
     public void addProduct(UUID buyerId, UUID productId, int amount) {
         BuyerId buyerIdVO = BuyerId.create(buyerId);
         Cart cart = repository.findFor(buyerIdVO);
