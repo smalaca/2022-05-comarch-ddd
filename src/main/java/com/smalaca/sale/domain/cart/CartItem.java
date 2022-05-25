@@ -13,7 +13,15 @@ class CartItem {
         return new Assortment(productId, amount);
     }
 
+    boolean isFor(ProductId productId) {
+        return this.productId.equals(productId);
+    }
+
     ProductId getProductId() {
         return productId;
+    }
+
+    Amount getAmount() {
+        return amount;
     }
 }

@@ -1,7 +1,10 @@
 package com.smalaca.sale.domain.cart;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.UUID;
 
+@EqualsAndHashCode
 public class ProductId {
     private final UUID productId;
 

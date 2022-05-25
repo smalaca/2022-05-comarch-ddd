@@ -6,7 +6,8 @@ import com.smalaca.sale.domain.offer.OfferItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class Cart {
     private final List<CartItem> items = new ArrayList<>();
@@ -26,23 +27,31 @@ public class Cart {
     }
 
     public Offer accept(Warehouse warehouse, Buyer buyer, List<ProductId> productIds) {
-      if (hasNotAll(productIds)) {
-        throw CartException.hasNotAll(productIds);
-      }
-      List<Assortment> assortments = items.stream().filter(item -> productIds.contains(item.getProductId()))
-              .map(CartItem::toAssortment).collect(Collectors.toList());
-      if (warehouse.areAvailable(assortments)){
-          List<Product> products=  warehouse.findProducts(productIds);
-          return create(buyer, products);
-      } else {
-          throw AssortmentException.notAvailable(assortments);
-      }
+        if (hasNotAll(productIds)) {
+            throw CartException.hasNotAll(productIds);
+        }
+
+        List<Assortment> assortments = asAssortments(productIds);
+
+        if (warehouse.areAvailable(assortments)) {
+            List<Product> products = warehouse.findProducts(productIds);
+            return create(buyer, products);
+        } else {
+            throw AssortmentException.notAvailable(assortments);
+        }
+    }
+
+    private List<Assortment> asAssortments(List<ProductId> productIds) {
+        return items.stream()
+                .filter(item -> productIds.contains(item.getProductId()))
+                .map(CartItem::toAssortment)
+                .collect(toList());
     }
 
     private Offer create(Buyer buyer, List<Product> products) {
         List<OfferItem> offerItems = products.stream()
                 .map(this::asOfferItem)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         Price cost = calculatePrice(offerItems);
         return new Offer(buyer, offerItems, cost);
@@ -59,10 +68,17 @@ public class Cart {
     }
 
     private Amount amountFor(ProductId productId) {
-        return null;
+        return items.stream()
+                .filter(item -> item.isFor(productId))
+                .findFirst().get()
+                .getAmount();
     }
 
     private boolean hasNotAll(List<ProductId> productIds) {
-    return false;
-  }
+        List<CartItem> accepted = items.stream()
+                .filter(item -> productIds.contains(item.getProductId()))
+                .collect(toList());
+
+        return accepted.size() == productIds.size();
+    }
 }
