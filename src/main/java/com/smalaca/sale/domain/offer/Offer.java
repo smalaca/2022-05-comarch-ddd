@@ -19,13 +19,12 @@ public class Offer {
         this.cost = cost;
     }
 
-    public static Offer create(Buyer buyer, List<Product> products, List<Assortment> assortments) {
+    public static Offer create(Buyer buyer, List<Product> products) {
 
         Map<ProductId, Product> productMap = products.stream().collect(Collectors.toMap(Product::getProductId, Function.identity()));
-        Map<ProductId, Assortment> assortmentsMap = assortments.stream().collect(Collectors.toMap(Assortment::getProductId, Function.identity()));
 
         List<OfferItem> offerItems = productMap.keySet().stream().map(productId ->
-                new OfferItem(productMap.get(productId), assortmentsMap.get(productId).getAmount())).collect(Collectors.toList());
+                new OfferItem(productMap.get(productId), productMap.get(productId).getAmount())).collect(Collectors.toList());
 
         Price cost = calculatePrice(offerItems);
         return new Offer(buyer, offerItems, cost);

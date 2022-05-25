@@ -1,15 +1,9 @@
 package com.smalaca.sale.domain.cart;
 
-import lombok.Getter;
-
-@Getter
-public class Assortment {
-
-    private final ProductId productId;
+class Assortment {
     private final Amount amount;
 
-    Assortment(ProductId productId, Amount amount) {
-        this.productId = productId;
+    Assortment(Amount amount) {
         this.amount = amount;
     }
 

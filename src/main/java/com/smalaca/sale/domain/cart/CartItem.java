@@ -10,7 +10,7 @@ class CartItem {
     }
 
     Assortment toAssortment() {
-        return new Assortment(productId, amount);
+        return new Assortment(amount);
     }
 
     ProductId getProductId() {
