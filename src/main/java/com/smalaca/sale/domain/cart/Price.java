@@ -2,7 +2,7 @@ package com.smalaca.sale.domain.cart;
 
 import java.math.BigDecimal;
 
-class Price {
+public class Price {
     private final BigDecimal value;
 
     Price(BigDecimal value) {
