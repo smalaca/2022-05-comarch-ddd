@@ -1,6 +1,6 @@
 package com.smalaca.sale.domain.cart;
 
-class Seller {
+public class Seller {
     private final String firstName;
     private final String lastName;
 

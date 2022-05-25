@@ -1,6 +1,7 @@
 package com.smalaca.sale.domain.cart;
 
 import com.smalaca.sale.domain.offer.Offer;
+import com.smalaca.sale.domain.offer.OfferItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +33,36 @@ public class Cart {
               .map(CartItem::toAssortment).collect(Collectors.toList());
       if (warehouse.areAvailable(assortments)){
           List<Product> products=  warehouse.findProducts(productIds);
-          return Offer.create(buyer, products);
+          return create(buyer, products);
       } else {
           throw AssortmentException.notAvailable(assortments);
       }
     }
 
-  private boolean hasNotAll(List<ProductId> productIds) {
+    private Offer create(Buyer buyer, List<Product> products) {
+        List<OfferItem> offerItems = products.stream()
+                .map(this::asOfferItem)
+                .collect(Collectors.toList());
+
+        Price cost = calculatePrice(offerItems);
+        return new Offer(buyer, offerItems, cost);
+    }
+
+    private OfferItem asOfferItem(Product product) {
+        return new OfferItem(product.getProductId(), product.getSeller(), product.getPrice(), amountFor(product.getProductId()));
+    }
+
+    private Price calculatePrice(List<OfferItem> offerItems) {
+        return offerItems.stream()
+                .map(OfferItem::calculateCost)
+                .reduce(Price.ZERO, Price::add);
+    }
+
+    private Amount amountFor(ProductId productId) {
+        return null;
+    }
+
+    private boolean hasNotAll(List<ProductId> productIds) {
     return false;
   }
 }

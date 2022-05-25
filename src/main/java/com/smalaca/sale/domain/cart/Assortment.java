@@ -1,9 +1,11 @@
 package com.smalaca.sale.domain.cart;
 
 class Assortment {
+    private final ProductId productId;
     private final Amount amount;
 
-    Assortment(Amount amount) {
+    Assortment(ProductId productId, Amount amount) {
+        this.productId = productId;
         this.amount = amount;
     }
 

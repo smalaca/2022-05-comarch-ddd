@@ -15,7 +15,7 @@ public class Price {
         return new Price(value.multiply(BigDecimal.valueOf(amount.get())));
     }
 
-    public Price add(Price price) {
+    Price add(Price price) {
         return new Price(value.add(price.value));
     }
 }
