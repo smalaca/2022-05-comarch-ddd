@@ -1,12 +1,8 @@
 package com.smalaca.sale.application.cart;
 
-import com.smalaca.sale.domain.cart.Amount;
-import com.smalaca.sale.domain.cart.Buyer;
-import com.smalaca.sale.domain.cart.BuyerId;
-import com.smalaca.sale.domain.cart.Cart;
-import com.smalaca.sale.domain.cart.CartRepository;
-import com.smalaca.sale.domain.cart.ProductId;
-import com.smalaca.sale.domain.cart.Warehouse;
+import com.smalaca.sale.domain.cart.*;
+import com.smalaca.sale.domain.offer.Offer;
+import com.smalaca.sale.domain.offer.OfferRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,35 +12,38 @@ import java.util.stream.Collectors;
 
 @Service
 public class CartApplicationService {
-    private final CartRepository repository;
+    private final CartRepository cartRepository;
+    private final OfferRepository offerRepository;
     private final Warehouse warehouse;
 
-    public CartApplicationService(CartRepository repository, Warehouse warehouse) {
-        this.repository = repository;
+    public CartApplicationService(CartRepository cartRepository, OfferRepository offerRepository, Warehouse warehouse) {
+        this.cartRepository = cartRepository;
+        this.offerRepository = offerRepository;
         this.warehouse = warehouse;
     }
 
     @Transactional
     public void addProduct(UUID buyerId, UUID productId, int amount) {
         BuyerId buyerIdVO = BuyerId.create(buyerId);
-        Cart cart = repository.findFor(buyerIdVO);
+        Cart cart = cartRepository.findFor(buyerIdVO);
         Amount amountVO = Amount.create(amount);
         ProductId productIdVO = ProductId.create(productId);
 
         cart.addProduct(warehouse, productIdVO, amountVO);
 
-        repository.save(cart);
+        cartRepository.save(cart);
     }
 
     @Transactional
     public void accept(AcceptCartDto acceptCartDto){
         BuyerId buyerIdVO = BuyerId.create(acceptCartDto.getBuyerId());
-        Cart cart = repository.findFor(buyerIdVO);
+        Cart cart = cartRepository.findFor(buyerIdVO);
         Buyer buyer = new Buyer(acceptCartDto.getBuyerFirstName(), acceptCartDto.getBuyerLastName());
         List<ProductId> productIds = acceptCartDto.getProductIds().stream().map(ProductId::create).collect(Collectors.toList());
 
-        cart.accept(buyer,  productIds);
+        Offer offer = cart.accept(buyer,  productIds);
 
-        repository.save(cart);
+        cartRepository.save(cart);
+        offerRepository.save(offer);
     }
 }

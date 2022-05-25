@@ -1,5 +1,7 @@
 package com.smalaca.sale.domain.cart;
 
+import com.smalaca.sale.domain.offer.Offer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +23,8 @@ public class Cart {
         items.add(new CartItem(productId, amount));
     }
 
-    public void accept(Buyer buyer, List<ProductId> productIds) {
+    public Offer accept(Buyer buyer, List<ProductId> productIds) {
 
+      return null;
     }
 }
