@@ -37,7 +37,9 @@ public class Cart {
 
         if (warehouse.areAvailable(assortments)) {
             List<Product> products = warehouse.findProducts(productIds);
-            return create(buyer, products);
+            Offer offer = create(buyer, products);
+            items.removeIf(item -> productIds.contains(item.getProductId()));
+            return offer;
         } else {
             throw AssortmentException.notAvailable(assortments);
         }
@@ -68,10 +70,16 @@ public class Cart {
     }
 
     private boolean hasNotAll(List<ProductId> productIds) {
-        List<CartItem> accepted = items.stream()
-                .filter(item -> productIds.contains(item.getProductId()))
-                .collect(toList());
+        List<CartItem> accepted = getCartItemsFor(productIds);
 
         return accepted.size() == productIds.size();
     }
+
+    private List<CartItem> getCartItemsFor(List<ProductId> productIds) {
+        return items.stream()
+                .filter(item -> productIds.contains(item.getProductId()))
+                .collect(toList());
+    }
+
+
 }
