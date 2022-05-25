@@ -8,6 +8,7 @@ import com.smalaca.sale.domain.product.ProductId;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 
 @Entity
+@Table(name = "CARTS")
 public class Cart {
     @EmbeddedId
     private BuyerId buyerId;
