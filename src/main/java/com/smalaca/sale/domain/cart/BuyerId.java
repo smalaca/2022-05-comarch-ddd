@@ -1,9 +1,13 @@
 package com.smalaca.sale.domain.cart;
 
+import javax.persistence.Embeddable;
 import java.util.UUID;
 
+@Embeddable
 public class BuyerId {
-    private final UUID buyerId;
+    private UUID buyerId;
+
+    private BuyerId() {}
 
     private BuyerId(UUID buyerId) {
         this.buyerId = buyerId;

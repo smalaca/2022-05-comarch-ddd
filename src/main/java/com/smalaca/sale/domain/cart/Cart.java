@@ -5,14 +5,27 @@ import com.smalaca.sale.domain.buyer.Buyer;
 import com.smalaca.sale.domain.offer.Offer;
 import com.smalaca.sale.domain.product.ProductId;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
+@Entity
 public class Cart {
-    private final List<CartItem> items = new ArrayList<>();
+    @EmbeddedId
+    private BuyerId buyerId;
+    @OneToMany
+    private List<CartItem> items = new ArrayList<>();
+
+    private Cart() {}
+
+    Cart(BuyerId buyerId) {
+        this.buyerId = buyerId;
+    }
 
     public void addProduct(Warehouse warehouse, ProductId productId, Amount amount) {
         Optional<Assortment> assortment = warehouse.findAssortmentFor(productId);
