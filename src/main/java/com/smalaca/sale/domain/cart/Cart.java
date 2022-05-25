@@ -24,7 +24,6 @@ public class Cart {
         items.add(new CartItem(productId, amount));
     }
 
-
     public Offer accept(Warehouse warehouse, Buyer buyer, List<ProductId> productIds) {
       if (hasNotAll(productIds)) {
         throw CartException.hasNotAll(productIds);
