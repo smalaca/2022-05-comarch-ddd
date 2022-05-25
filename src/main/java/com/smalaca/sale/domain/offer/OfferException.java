@@ -1,6 +1,6 @@
 package com.smalaca.sale.domain.offer;
 
-import com.smalaca.sale.domain.cart.Buyer;
+import com.smalaca.sale.domain.buyer.Buyer;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.smalaca.sale.domain.cart;
+package com.smalaca.sale.domain.buyer;
 
 public class Buyer {
 

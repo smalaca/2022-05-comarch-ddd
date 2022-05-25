@@ -1,4 +1,4 @@
-package com.smalaca.sale.domain.cart;
+package com.smalaca.sale.domain.amount;
 
 class InvalidAmountException extends RuntimeException {
     private final int amount;

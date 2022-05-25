@@ -1,9 +1,9 @@
 package com.smalaca.sale.domain.offer;
 
-import com.smalaca.sale.domain.cart.Amount;
-import com.smalaca.sale.domain.cart.Price;
-import com.smalaca.sale.domain.cart.ProductId;
-import com.smalaca.sale.domain.cart.Seller;
+import com.smalaca.sale.domain.amount.Amount;
+import com.smalaca.sale.domain.price.Price;
+import com.smalaca.sale.domain.product.ProductId;
+import com.smalaca.sale.domain.seller.Seller;
 
 class OfferItem {
     private final ProductId productId;

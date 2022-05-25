@@ -1,4 +1,6 @@
-package com.smalaca.sale.domain.cart;
+package com.smalaca.sale.domain.price;
+
+import com.smalaca.sale.domain.amount.Amount;
 
 import java.math.BigDecimal;
 

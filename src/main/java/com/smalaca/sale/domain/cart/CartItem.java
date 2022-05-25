@@ -1,5 +1,8 @@
 package com.smalaca.sale.domain.cart;
 
+import com.smalaca.sale.domain.amount.Amount;
+import com.smalaca.sale.domain.product.ProductId;
+
 class CartItem {
     private final ProductId productId;
     private final Amount amount;

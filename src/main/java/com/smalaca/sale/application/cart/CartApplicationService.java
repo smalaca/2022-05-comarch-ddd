@@ -1,8 +1,11 @@
 package com.smalaca.sale.application.cart;
 
+import com.smalaca.sale.domain.amount.Amount;
+import com.smalaca.sale.domain.buyer.Buyer;
 import com.smalaca.sale.domain.cart.*;
 import com.smalaca.sale.domain.offer.Offer;
 import com.smalaca.sale.domain.offer.OfferRepository;
+import com.smalaca.sale.domain.product.ProductId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

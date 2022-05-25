@@ -1,4 +1,4 @@
-package com.smalaca.sale.domain.cart;
+package com.smalaca.sale.domain.amount;
 
 public class Amount {
     private final int amount;
@@ -15,11 +15,11 @@ public class Amount {
         }
     }
 
-    int get() {
+    public int get() {
         return amount;
     }
 
-    boolean isLowerThan(Amount amount) {
+    public boolean isLowerThan(Amount amount) {
         return this.amount < amount.amount;
     }
 }
