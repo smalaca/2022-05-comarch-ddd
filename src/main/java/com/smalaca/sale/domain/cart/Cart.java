@@ -20,4 +20,8 @@ public class Cart {
 
         items.add(new CartItem(productId, amount));
     }
+
+    public void accept(Buyer buyer, List<ProductId> productIds) {
+
+    }
 }
