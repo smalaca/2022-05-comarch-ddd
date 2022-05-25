@@ -32,7 +32,7 @@ public class Cart {
               .map(CartItem::toAssortment).collect(Collectors.toList());
       if (warehouse.areAvailable(assortments)){
           List<Product> products=  warehouse.findProducts(productIds);
-          return null;
+          return Offer.create(buyer, products, assortments);
       } else {
           throw AssortmentException.notAvailable(assortments);
       }

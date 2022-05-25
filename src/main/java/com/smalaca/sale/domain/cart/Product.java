@@ -1,6 +1,9 @@
 package com.smalaca.sale.domain.cart;
 
-class Product {
+import lombok.Getter;
+
+public class Product {
+    @Getter
     private final ProductId productId;
     private final Seller seller;
     private final Price price;
