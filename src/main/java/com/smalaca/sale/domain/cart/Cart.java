@@ -2,9 +2,9 @@ package com.smalaca.sale.domain.cart;
 
 import com.smalaca.sale.domain.amount.Amount;
 import com.smalaca.sale.domain.buyer.Buyer;
-import com.smalaca.sale.domain.event.EventRegistry;
 import com.smalaca.sale.domain.offer.Offer;
 import com.smalaca.sale.domain.product.ProductId;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 @Entity
 @Table(name = "CARTS")
-public class Cart {
+public class Cart extends AbstractAggregateRoot<Cart> {
     @EmbeddedId
     private BuyerId buyerId;
     @OneToMany
@@ -44,7 +44,7 @@ public class Cart {
         items.add(new CartItem(productId, amount));
     }
 
-    public Offer accept(EventRegistry eventRegistry, Warehouse warehouse, Buyer buyer, List<ProductId> productIds) {
+    public Offer accept(Warehouse warehouse, Buyer buyer, List<ProductId> productIds) {
         if (hasNotAll(productIds)) {
             throw CartException.hasNotAll(productIds);
         }
@@ -55,7 +55,7 @@ public class Cart {
             List<Product> products = warehouse.findProducts(productIds);
             Offer offer = create(buyer, products);
             items.removeIf(item -> productIds.contains(item.getProductId()));
-            eventRegistry.publish(OfferCreatedEvent.create(productIds));
+            andEvent(OfferCreatedEvent.create(productIds));
             return offer;
         } else {
             throw AssortmentException.notAvailable(assortments);
