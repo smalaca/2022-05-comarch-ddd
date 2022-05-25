@@ -11,7 +11,7 @@ class AssortmentException {
         return new RuntimeException("Has not enough product: " + productId + ". Expected amount " + amount.get());
     }
 
-    public static RuntimeException notAvailable(List<Assortment> assortments) {
+    static RuntimeException notAvailable(List<Assortment> assortments) {
         return null;
     }
 }
