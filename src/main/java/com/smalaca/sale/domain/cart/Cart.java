@@ -2,6 +2,7 @@ package com.smalaca.sale.domain.cart;
 
 import com.smalaca.sale.domain.amount.Amount;
 import com.smalaca.sale.domain.buyer.Buyer;
+import com.smalaca.sale.domain.event.EventRegistry;
 import com.smalaca.sale.domain.offer.Offer;
 import com.smalaca.sale.domain.product.ProductId;
 
@@ -43,7 +44,7 @@ public class Cart {
         items.add(new CartItem(productId, amount));
     }
 
-    public Offer accept(Warehouse warehouse, Buyer buyer, List<ProductId> productIds) {
+    public Offer accept(EventRegistry eventRegistry, Warehouse warehouse, Buyer buyer, List<ProductId> productIds) {
         if (hasNotAll(productIds)) {
             throw CartException.hasNotAll(productIds);
         }
@@ -54,6 +55,7 @@ public class Cart {
             List<Product> products = warehouse.findProducts(productIds);
             Offer offer = create(buyer, products);
             items.removeIf(item -> productIds.contains(item.getProductId()));
+            eventRegistry.publish(OfferCreatedEvent.create(productIds));
             return offer;
         } else {
             throw AssortmentException.notAvailable(assortments);

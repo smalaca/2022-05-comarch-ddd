@@ -15,4 +15,8 @@ public class ProductId {
     public static ProductId create(UUID productId) {
         return new ProductId(productId);
     }
+
+    public UUID get() {
+        return productId;
+    }
 }
