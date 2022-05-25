@@ -2,7 +2,7 @@ package com.smalaca.sale.domain.offer;
 
 import com.smalaca.sale.domain.amount.Amount;
 import com.smalaca.sale.domain.buyer.Buyer;
-import com.smalaca.sale.domain.price.Price;
+import com.smalaca.price.Price;
 import com.smalaca.sale.domain.product.ProductId;
 import com.smalaca.sale.domain.seller.Seller;
 

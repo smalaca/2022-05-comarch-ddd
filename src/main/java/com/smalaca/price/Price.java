@@ -1,4 +1,4 @@
-package com.smalaca.sale.domain.price;
+package com.smalaca.price;
 
 import com.smalaca.sale.domain.amount.Amount;
 

@@ -1,6 +1,6 @@
 package com.smalaca.sale.domain.cart;
 
-import com.smalaca.sale.domain.price.Price;
+import com.smalaca.price.Price;
 import com.smalaca.sale.domain.product.ProductId;
 import com.smalaca.sale.domain.seller.Seller;
 import lombok.AccessLevel;
