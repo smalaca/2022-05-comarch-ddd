@@ -55,6 +55,8 @@ public class Cart {
             return offer;
         } else {
             throw AssortmentException.notAvailable(assortments);
+//            eventRegistry.publish(new NotAvailableProductsFound(productIds));
+//            return new PairOptional<Offer, NotAvailableProductsFound>;
         }
     }
 
